@@ -1,0 +1,32 @@
+RSA vs AES - Summary and Use-Cases
+
+1. Basic Differences
+- RSA:
+  - Asymmetric (public/private keys).
+  - Good for small data (keys, signatures).
+  - Slower, computationally heavy.
+  - Example use: encrypting a symmetric key or verifying signatures.
+
+- AES-256:
+  - Symmetric (single shared secret key).
+  - Very fast and efficient for large data.
+  - Requires secure key distribution.
+  - Example use: encrypt bulk data, files, and streams.
+
+2. Typical Hybrid Pattern (Recommended in practice)
+- Generate a random AES key (symmetric).
+- Encrypt the large file with AES (fast).
+- Encrypt the AES key with RSA using recipient's public key.
+- Send both the RSA-encrypted AES key and the AES ciphertext.
+- Recipient: decrypt AES key with private RSA key, then decrypt ciphertext with AES.
+
+3. Security & Performance Notes
+- RSA provides confidentiality and authentication (when used with signatures), but not efficient for large payloads.
+- AES (with a secure mode like GCM or CBC+HMAC) provides confidentiality and (with AEAD) integrity.
+- Use ephemeral key exchange (ECDHE) or hybrid schemes to get forward secrecy and scalable performance.
+
+4. Files produced in this lab (example)
+- rsa_vs_aes.txt (this file)
+- public.pem / private.pem (RSA keys)
+- aes_key.bin / aes_iv.bin (AES parameters)
+- message_aes_encrypted.bin / message_rsa_encrypted.bin
